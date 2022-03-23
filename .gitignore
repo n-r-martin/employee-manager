@@ -1,0 +1,5 @@
+# Ignore Node JS modules  
+node_modules
+
+# Ignore DS_store
+DS_store
