@@ -1,6 +1,8 @@
 const express = require('express');
 // Import and require mysql2
 const mysql = require('mysql2');
+// Import and require console.table
+require('console.table');
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -29,9 +31,22 @@ const db = mysql.createConnection(
 //   console.log(result);
 // });
 
-// Query database
-db.query('SELECT * FROM departments', function (err, results) {
-  console.log(results);
+// // Query database
+// db.query('SELECT * FROM department', function (err, results) {
+//   console.table(results);
+// });
+
+db.promise().query('SELECT * FROM department').then((results) => {
+  console.table(results[0]);
+});
+
+db.promise().query('SELECT * FROM role').then((results) => {
+  console.table(results[0]);
+});         
+
+
+db.promise().query('SELECT * FROM employee').then((results) => {
+  console.table(results[0]);
 });
 
 // Default response for any other request (Not Found)
