@@ -33,6 +33,8 @@
   <br />
   <br />
 
+  [Video Walkthrough](https://youtu.be/Mex0mJOMmE8)
+
   <a name="contribution"></a>
 
   ## How to Contribute
