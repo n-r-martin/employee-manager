@@ -1,20 +1,21 @@
 INSERT INTO department (name)
-VALUES ("Research and Development"),
-       ("Engineering"),
+VALUES ("Royal Administration"),
+       ("Diplomacy"),
        ("Sciences"),
-       ("Human Resources");
+       ("Security");
 
 INSERT INTO role (title, salary, department_id)
-VALUES ("Analyst", 90000, 1),
-       ("Engineer", 120000, 2),
-       ("Ecologist", 80000, 3),
-       ("Safety Supervisor", 100000, 1);
+VALUES ("Duke", 200000, 1),
+       ("Kwizatz Haderach", 175000, 1),
+       ("Ecologist", 120000, 3),
+       ("Bodyguard", 100000, 4),
+       ("Mentat, Master of Assassins", 150000, 2);
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ("Leto", "Atreides", 2, NULL),
-       ("Paul", "Atreides", 2, 1),
-       ("Duncan","Idaho", 4, 1),
-       ("Thufir", "Hawat", 1, 1),
+VALUES ("Leto", "Atreides", 1, 1),
+       ("Paul", "Atreides", 2, 2),
+       ("Duncan","Idaho", 4, 2),
+       ("Thufir", "Hawat", 5, 1),
        ("Gurney", "Halleck", 4, 2),
-       ("Liet", "Kynes", 3, NULL);
+       ("Liet", "Kynes", 3, 1);
        

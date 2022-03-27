@@ -155,6 +155,23 @@ const newEmployeePrompt = () => {
   ]);
 };
 
+const updateEmployeeRolePrompt = () => {
+  return inquirer.prompt([
+    {
+      type: "list",
+      message: "Which employee would you like to update the role for?",
+      name: "employeeSelection",
+      choices: employeeList,
+    },
+    {
+      type: "list",
+      message: "Please select their new role:",
+      name: "roleSelection",
+      choices: roleList,
+    },
+  ]);
+}
+
 const primaryPrompt = () => {
   mainMenu().then((response) => {
     switch (response.baseSelection) {
@@ -213,9 +230,8 @@ const primaryPrompt = () => {
         break;
       case "Add a role":
         newRolePrompt().then((data) => {
-          console.log(data);
-
           const title = data.roleTitle;
+          roleList.push(title);
 
           const salary = data.roleSalary;
 
@@ -247,11 +263,11 @@ const primaryPrompt = () => {
         break;
       case "Add an employee":
         newEmployeePrompt().then((data) => {
-          console.log(data);
-
           const firstName = data.firstName;
 
           const lastName = data.lastName;
+
+          employeeList.push(firstName + ' ' + lastName);
 
           const getRoleId = db
             .promise()
@@ -293,6 +309,44 @@ const primaryPrompt = () => {
                 });
             }
           );
+        });
+        break;
+      case "Update an employee role":
+        updateEmployeeRolePrompt().then((data) => {
+          console.log(data);
+
+          // Splitting the manager full name so we can find their id in the employee table
+          let splitEmployeeName = data.employeeSelection.split(" ");
+          let empFirstName = splitEmployeeName[0];
+          let empLastName = splitEmployeeName[1];
+
+          console.log(empFirstName);
+          console.log(empLastName);
+
+          const getRoleId = db
+            .promise()
+            .query(`SELECT id FROM role WHERE title = "${data.roleSelection}"`)
+            .then((data) => {
+              newRoleId = data[0][0].id;
+              console.log(newRoleId);
+              return newRoleId;
+            });
+
+            Promise.all([empFirstName, empLastName, getRoleId]).then(
+              (data) => {
+                console.log(data);
+                db.promise()
+                  .query(
+                      `UPDATE employee SET role_id = ${newRoleId} WHERE first_name="${empFirstName}" AND last_name="${empLastName}"`
+                    )
+                  .then(() => {
+                    console.log(``);
+                    console.log(`Employee role updated!`);
+                    console.log(``);
+                    primaryPrompt();
+                  });
+              }
+            );
         });
         break;
       default:
